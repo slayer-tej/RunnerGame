@@ -8,20 +8,20 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material #3940
-    second: {fileID: 2100000, guid: bbe15eabbc492544297d885127bf7136, type: 2}
+    second: {fileID: 2100000, guid: 93b04bf6b13e53e4aa60116b07f5e449, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material #3941
-    second: {fileID: 2100000, guid: c70693eeea99b7a40b86009acb73f252, type: 2}
+    second: {fileID: 2100000, guid: ad5304bf48c3bcd499cf473130e7ff0b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material #3942
-    second: {fileID: 2100000, guid: 636cfd65706a0454dac70dae3e786953, type: 2}
+    second: {fileID: 2100000, guid: 972beb99421d18741b4f368989033d04, type: 2}
   materials:
     materialImportMode: 1
-    materialName: 0
+    materialName: 1
     materialSearch: 1
     materialLocation: 1
   animations:
@@ -52,7 +52,7 @@ ModelImporter:
     globalScale: 0.025
     meshCompression: 0
     addColliders: 0
-    useSRGBMaterialColor: 1
+    useSRGBMaterialColor: 0
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1

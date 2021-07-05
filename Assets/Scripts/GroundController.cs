@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class GroundController : MonoBehaviour
 {
+    [SerializeField]
+    private int playerHelalth;
+
     public Transform spawnPosition;
     [SerializeField]
     public Transform startPoint;
@@ -11,9 +14,17 @@ public class GroundController : MonoBehaviour
     [SerializeField]
     public Transform rightPoint;
     [SerializeField]
+    public Transform yMin;
+    [SerializeField]
+    public Transform yMax;
+    [SerializeField]
     public Transform endPoint;
     [SerializeField]
     private GameObject[] obstacles;
+    [SerializeField]
+    private GameObject coinPrefab;
+    [SerializeField]
+    private Transform coinPlaceHolder;
 
     private bool isFromPool = false;
     private List<GameObject> pooledItems = new List<GameObject>();
@@ -21,7 +32,20 @@ public class GroundController : MonoBehaviour
 
     private void Awake()
     {
-        numOfObstaclesToPlace = Random.Range(5,10);
+        numOfObstaclesToPlace = Random.Range(5,7);
+    }
+
+    public void SpawnCoins()
+    {
+        int coinsToSpawn = 10;
+        for (int i = 0; i < coinsToSpawn; i++)
+        {
+            Vector3 randomPoint = GetRandomPoint();
+
+            GameObject temp = Instantiate(coinPrefab,coinPlaceHolder);
+            randomPoint.y = 1;
+            temp.transform.position = randomPoint;
+        }
     }
 
     public void ActivateRandomObstacle()
@@ -29,8 +53,8 @@ public class GroundController : MonoBehaviour
         for(int i = 0; i < numOfObstaclesToPlace; i++)
         {
             int randomNumber = Random.Range(0, obstacles.Length);
-            Vector3 randomPos = new Vector3(Random.Range(leftPoint.position.x, rightPoint.position.x), 0, Random.Range(startPoint.position.z, endPoint.position.z));
-            if(!isFromPool)
+            Vector3 randomPos = GetRandomPoint();
+            if (!isFromPool)
             {
                 GameObject obstacle = Instantiate(obstacles[randomNumber], randomPos, Quaternion.identity, spawnPosition);
                 pooledItems.Add(obstacle);
@@ -43,6 +67,13 @@ public class GroundController : MonoBehaviour
             }
         }
         isFromPool = true;
+    }
+
+    private Vector3 GetRandomPoint()
+    {
+        return new Vector3(Random.Range(leftPoint.position.x, rightPoint.position.x),
+                                                    Random.Range(yMin.position.y, yMax.position.y),
+                                                    Random.Range(startPoint.position.z, endPoint.position.z));
     }
 
     public void DeactivateAllObstacles()
