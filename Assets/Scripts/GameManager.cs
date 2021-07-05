@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager: MonoSingletonGeneric<GameManager>
 {
@@ -12,22 +14,32 @@ public class GameManager: MonoSingletonGeneric<GameManager>
     [SerializeField]
     private TextMeshProUGUI scoreInput;
     [SerializeField]
-    private List<GroundController> pooledItems = new List<GroundController>();
+    private GameObject panelGameOver;
     [SerializeField]
-    private GameObject[] hearts;
-
+    private Button buttonPause;
+    [SerializeField]
+    private Button buttonRestart;
+    [SerializeField]
+    private Button buttonLobby;
+    [SerializeField]
+    private GameObject inputPaused;
+    [SerializeField]
+    private List<GroundController> pooledItems = new List<GroundController>();
     private ServicePool servicePool;
     private int count = 0;
     public float playerDistance;
     private int coins;
-
-   
+    private bool isGamePaused;
 
     void Start()
     {
         servicePool = gameObject.GetComponent<ServicePool>();
         GetItemFromPool();
+        buttonPause.onClick.AddListener(PauseGame);
+        buttonRestart.onClick.AddListener(RestartGame);
+        buttonLobby.onClick.AddListener(GoToLobby);
     }
+
     private void Update()
     {
         UpdateDistanceCovered();
@@ -35,14 +47,11 @@ public class GameManager: MonoSingletonGeneric<GameManager>
 
     public void UpdateDistanceCovered()
     {
-        int dist = Convert.ToInt32(playerDistance);
-        scoreInput.text = dist.ToString();
-
+        scoreInput.text = playerDistance.ToString();
     }
 
     public void IncrementScore()
     {
-        //scoreInput.text = playerDistance;
         coins++;
         coinInput.text = coins.ToString();
     }
@@ -79,11 +88,32 @@ public class GameManager: MonoSingletonGeneric<GameManager>
         count++;
     }
 
-    public void DisplayHearts(int life)
+   public void PauseGame()
     {
-        for (int i = 0; i < hearts.Length; i++)
+        isGamePaused = !isGamePaused;
+        inputPaused.SetActive(isGamePaused);
+        if (isGamePaused)
         {
-            hearts[i].SetActive(i < life);
+            Time.timeScale = 0f;
         }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+    private void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void GoToLobby()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void GameOver()
+    {
+        panelGameOver.SetActive(true);
     }
 }
