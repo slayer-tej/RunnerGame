@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,12 +12,15 @@ public class LobbyController : MonoBehaviour
     private void Awake()
     {
         buttonPlay.onClick.AddListener(PlayGame);
-        buttonPlay.onClick.AddListener(QuitGame);
+        buttonQuit.onClick.AddListener(QuitGame);
     }
 
     private void QuitGame()
     {
-        Application.Quit();
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            Application.Quit();
+        }
     }
 
     private void PlayGame()
