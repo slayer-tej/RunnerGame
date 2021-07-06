@@ -4,6 +4,7 @@ public class CollisionDetection : MonoBehaviour
 {
     [SerializeField]
     private PlayerController controller;
+    private int damage = 1;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -13,8 +14,8 @@ public class CollisionDetection : MonoBehaviour
         }
         if (collision.collider.CompareTag("collider"))
         {
-            controller.OnCharacterColliderHit();
-            //collision.collider.gameObject.SetActive(false);
+            controller.UpdateLives(damage);
+            collision.collider.gameObject.SetActive(false);
         }
     }
 }
